@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .formLogin(
                         login -> login.loginPage("/login").permitAll()
-                );
+                )
+                .exceptionHandling(e -> e.accessDeniedPage("/access-denied"));
     }
 
     @Override

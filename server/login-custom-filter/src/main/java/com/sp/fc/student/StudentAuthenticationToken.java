@@ -21,31 +21,6 @@ public class StudentAuthenticationToken implements Authentication {
         return principal == null ? new HashSet<>() : principal.getRole();
     }
 
-//    @Override
-//    public Object getCredentials() {
-//        return null;
-//    }
-//
-//    @Override
-//    public Object getDetails() {
-//        return null;
-//    }
-//
-//    @Override
-//    public Object getPrincipal() {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean isAuthenticated() {
-//        return false;
-//    }
-//
-//    @Override
-//    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-//
-//    }
-
     @Override
     public String getName() {
         return principal == null ? "" : principal.getUsername();
