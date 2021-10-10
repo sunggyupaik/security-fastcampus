@@ -2,6 +2,7 @@ package com.sp.fc.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,5 +47,12 @@ class BasicAuthenticationTestApplicationTest {
                 .exchange(greetingUrl(), HttpMethod.GET, entity, String.class);
 
         assertEquals("hello", response.getBody());
+    }
+
+    @Test
+    void test3() {
+        TestRestTemplate testClient = new TestRestTemplate("user1", "1111");
+        String response = testClient.getForObject(greetingUrl(), String.class);
+        assertEquals("hello", response);
     }
 }
