@@ -3,7 +3,11 @@ package com.sp.fc.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BasicAuthenticationTestApplicationTest {
@@ -18,7 +22,10 @@ class BasicAuthenticationTestApplicationTest {
 
     @Test
     void test() {
-        String response = client.getForObject(greetingUrl(), String.class);
-        System.out.println(response);
+        HttpClientErrorException exception = assertThrows(HttpClientErrorException.class, () -> {
+            client.getForObject(greetingUrl(), String.class);
+        });
+
+        assertEquals(401, exception.getRawStatusCode());
     }
 }
