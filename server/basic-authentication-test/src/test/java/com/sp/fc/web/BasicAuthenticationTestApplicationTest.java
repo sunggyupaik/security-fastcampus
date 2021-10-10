@@ -55,4 +55,11 @@ class BasicAuthenticationTestApplicationTest {
         String response = testClient.getForObject(greetingUrl(), String.class);
         assertEquals("hello", response);
     }
+
+    @Test
+    void test4() {
+        TestRestTemplate testClient = new TestRestTemplate("user1", "1111");
+        ResponseEntity<String> response = testClient.postForEntity(greetingUrl(), "jongwon", String.class);
+        assertEquals("hello jongwon", response.getBody());
+    }
 }
