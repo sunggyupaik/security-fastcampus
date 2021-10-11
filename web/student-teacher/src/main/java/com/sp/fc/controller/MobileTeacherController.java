@@ -13,16 +13,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/teacher")
-public class ApiTeacherController {
+public class MobileTeacherController {
     private final StudentManager studentManager;
 
-    public ApiTeacherController(StudentManager studentManager) {
+    public MobileTeacherController(StudentManager studentManager) {
         this.studentManager = studentManager;
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
     @GetMapping("/students")
-    public List<Student> studentList(@AuthenticationPrincipal Teacher teacher) {
+    public List<Student> students(@AuthenticationPrincipal Teacher teacher){
         return studentManager.myStudentList(teacher.getId());
     }
 }
