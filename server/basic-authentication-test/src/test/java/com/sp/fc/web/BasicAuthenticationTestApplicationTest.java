@@ -45,7 +45,6 @@ class BasicAuthenticationTestApplicationTest {
         HttpEntity entity = new HttpEntity(null, headers);
         ResponseEntity<String> response = client
                 .exchange(greetingUrl(), HttpMethod.GET, entity, String.class);
-
         assertEquals("hello", response.getBody());
     }
 

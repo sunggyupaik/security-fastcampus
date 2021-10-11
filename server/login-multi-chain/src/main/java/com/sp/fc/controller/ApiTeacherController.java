@@ -21,7 +21,7 @@ public class ApiTeacherController {
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
-    @GetMapping("/main")
+    @GetMapping("/students")
     public List<Student> studentList(@AuthenticationPrincipal Teacher teacher) {
         return studentManager.myStudentList(teacher.getId());
     }
