@@ -1,0 +1,14 @@
+server:
+  port: 9055
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+  tymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    check-template-location: t

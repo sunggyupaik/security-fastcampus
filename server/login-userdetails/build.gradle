@@ -1,0 +1,7 @@
+apply from: "../web-common.gradle"
+
+dependencies {
+    compile project(":web-user-admin")
+    compile project(":comp-user-admin")
+}
+
