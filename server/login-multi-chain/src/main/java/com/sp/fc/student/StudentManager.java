@@ -39,7 +39,7 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
     }
 
     public List<Student> myStudentList(String teacherId) {
-        return studentDB.values().stream().filter(s -> s.getTeacherId().equals(teacherId))
+        return studentDB.values().stream().filter(s-> s.getTeacherId().equals(teacherId))
                 .collect(Collectors.toList());
     }
 
