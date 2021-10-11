@@ -11,4 +11,4 @@ spring:
   tymeleaf:
     prefix: classpath:/templates/
     cache: false
-    check-template-location: t
+    check-template-location: true

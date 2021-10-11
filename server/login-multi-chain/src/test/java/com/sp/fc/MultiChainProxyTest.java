@@ -1,4 +1,4 @@
-package com.sp.fc.web;
+package com.sp.fc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
