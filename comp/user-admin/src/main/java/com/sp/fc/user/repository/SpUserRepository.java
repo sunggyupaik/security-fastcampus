@@ -1,6 +1,6 @@
-package com.sp.fc.repository;
+package com.sp.fc.user.repository;
 
-import com.sp.fc.domain.SpUser;
+import com.sp.fc.user.domain.SpUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

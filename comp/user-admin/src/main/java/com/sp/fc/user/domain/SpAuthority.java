@@ -1,4 +1,4 @@
-package com.sp.fc.domain;
+package com.sp.fc.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +17,7 @@ import javax.persistence.*;
 @IdClass(SpAuthority.class)
 public class SpAuthority implements GrantedAuthority {
     @Id
+    @Column(name="user_id")
     private Long userId;
 
     @Id

@@ -1,6 +1,6 @@
 package com.sp.fc.config;
 
-import com.sp.fc.service.SpUserService;
+import com.sp.fc.user.service.SpUserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .requestMatchers(
-                        PathRequest.toStaticResources().atCommonLocations()
+                        PathRequest.toStaticResources().atCommonLocations(),
+                        PathRequest.toH2Console()
                 );
     }
 }

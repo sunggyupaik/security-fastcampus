@@ -1,8 +1,8 @@
-package com.sp.fc.service;
+package com.sp.fc.user.service;
 
-import com.sp.fc.domain.SpAuthority;
-import com.sp.fc.domain.SpUser;
-import com.sp.fc.repository.SpUserRepository;
+import com.sp.fc.user.domain.SpAuthority;
+import com.sp.fc.user.domain.SpUser;
+import com.sp.fc.user.repository.SpUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
