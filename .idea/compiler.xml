@@ -10,11 +10,13 @@
         <module name="security-fastcampus.comp-common-utils.test" />
         <module name="security-fastcampus.server-basic-test.main" />
         <module name="security-fastcampus.server-login-custom-filter.main" />
+        <module name="security-fastcampus.server-login-multi-chain.main" />
         <module name="security-fastcampus.server-basic-authentication-test.main" />
         <module name="security-fastcampus.comp-common-utils.main" />
         <module name="security-fastcampus.server-basic-authentication-test.test" />
         <module name="security-fastcampus.server-login-custom-filter.test" />
         <module name="security-fastcampus.server-basic-test.test" />
+        <module name="security-fastcampus.server-login-multi-chain.test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
