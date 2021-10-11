@@ -2,6 +2,7 @@ package com.sp.fc.student;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,23 +20,40 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        StudentAuthenticationToken token = (StudentAuthenticationToken) authentication;
-        if(studentDB.containsKey(token.getCredentials())) {
-            Student student = studentDB.get(token.getCredentials());
-            return StudentAuthenticationToken.builder()
-                    .principal(student)
-                    .credentials(null)
-                    .details(student.getUsername())
-                    .authenticated(true)
-                    .build();
+        if(authentication instanceof UsernamePasswordAuthenticationToken) {
+            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+            if(studentDB.containsKey(token.getName())) {
+                Student student = studentDB.get(token.getName());
+                return studentAuthenticationToken(student);
+            }
+            return null;
+        }
+
+        if(authentication instanceof StudentAuthenticationToken) {
+            StudentAuthenticationToken token = (StudentAuthenticationToken) authentication;
+            if(studentDB.containsKey(token.getCredentials())) {
+                Student student = studentDB.get(token.getCredentials());
+                return studentAuthenticationToken(student);
+            }
+            return null;
         }
 
         return null;
     }
 
+    private StudentAuthenticationToken studentAuthenticationToken(Student student) {
+        return StudentAuthenticationToken.builder()
+                .principal(student)
+                .credentials(null)
+                .details(student.getUsername())
+                .authenticated(true)
+                .build();
+    }
+
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication == StudentAuthenticationToken.class;
+        return authentication == StudentAuthenticationToken.class ||
+                authentication == UsernamePasswordAuthenticationToken.class;
     }
 
     public List<Student> myStudentList(String teacherId) {

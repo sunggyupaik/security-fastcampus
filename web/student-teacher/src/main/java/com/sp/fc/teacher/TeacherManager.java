@@ -2,6 +2,7 @@ package com.sp.fc.teacher;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,23 +18,40 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        TeacherAuthenticationToken token = (TeacherAuthenticationToken) authentication;
-        if(teacherDB.containsKey(token.getCredentials())) {
-            Teacher teacher = teacherDB.get(token.getCredentials());
-            return TeacherAuthenticationToken.builder()
-                    .principal(teacher)
-                    .credentials(null)
-                    .details(teacher.getUsername())
-                    .authenticated(true)
-                    .build();
+        if(authentication instanceof UsernamePasswordAuthenticationToken) {
+            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+            if(teacherDB.containsKey(token.getName())) {
+                Teacher teacher = teacherDB.get(token.getName());
+                return getAuthenticationToken(teacher);
+            }
+            return null;
+        }
+
+        if(authentication instanceof TeacherAuthenticationToken) {
+            TeacherAuthenticationToken token = (TeacherAuthenticationToken) authentication;
+            if(teacherDB.containsKey(token.getCredentials())) {
+                Teacher teacher = teacherDB.get(token.getCredentials());
+                return getAuthenticationToken(teacher);
+            }
+            return null;
         }
 
         return null;
     }
 
+    private TeacherAuthenticationToken getAuthenticationToken(Teacher teacher) {
+        return TeacherAuthenticationToken.builder()
+                .principal(teacher)
+                .credentials(null)
+                .details(teacher.getUsername())
+                .authenticated(true)
+                .build();
+    }
+
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication == TeacherAuthenticationToken.class;
+        return authentication == TeacherAuthenticationToken.class ||
+                authentication == UsernamePasswordAuthenticationToken.class;
     }
 
     @Override
