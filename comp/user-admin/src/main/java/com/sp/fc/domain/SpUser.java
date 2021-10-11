@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 @Data
@@ -33,16 +31,6 @@ public class SpUser implements UserDetails {
     private boolean enabled;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
     public String getUsername() {
         return email;
     }
@@ -60,10 +48,5 @@ public class SpUser implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 }
