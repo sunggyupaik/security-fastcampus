@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         "com.sp.fc.config",
         "com.sp.fc"
 })
-public class UserDetailsTestApplication {
+public class RememberMeTestApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserDetailsTestApplication.class, args);
+        SpringApplication.run(RememberMeTestApplication.class, args);
     }
 }
