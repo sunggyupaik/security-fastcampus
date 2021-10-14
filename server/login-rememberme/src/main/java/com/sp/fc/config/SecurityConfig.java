@@ -80,8 +80,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .defaultSuccessUrl("/", false)
                                 .failureUrl("/login-error")
                 )
-                .logout(logout -> logout.logoutSuccessUrl("/"))
-                .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"));
+                .logout(logout ->
+                        logout.logoutSuccessUrl("/")
+                )
+                .exceptionHandling(exception ->
+                        exception.accessDeniedPage("/access-denied")
+                )
+                .rememberMe();
     }
 
     @Override
