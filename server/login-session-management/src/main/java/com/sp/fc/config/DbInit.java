@@ -1,4 +1,4 @@
-package com.sp.fc.web.config;
+package com.sp.fc.config;
 
 import com.sp.fc.user.domain.SpUser;
 import com.sp.fc.user.service.SpUserService;
@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DbInit implements InitializingBean {
-
-    @Autowired
     private SpUserService userService;
+
+    public DbInit(SpUserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -38,10 +40,5 @@ public class DbInit implements InitializingBean {
                     .build());
             userService.addAuthority(user.getUserId(), "ROLE_ADMIN");
         }
-
-
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.sp.fc.web.config;
+package com.sp.fc.config;
 
 import com.sp.fc.user.service.SpUserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -12,11 +12,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.ConcurrentSessionFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.servlet.http.HttpSessionEvent;
@@ -26,6 +29,8 @@ import java.time.LocalDateTime;
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    ConcurrentSessionFilter filter1;
 
     private final SpUserService spUserService;
     private final DataSource dataSource;
@@ -76,6 +81,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
     PersistentTokenRepository tokenRepository(){
         JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
         repository.setDataSource(dataSource);
@@ -89,12 +99,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     PersistentTokenBasedRememberMeServices rememberMeServices(){
-        PersistentTokenBasedRememberMeServices service =
-                new PersistentTokenBasedRememberMeServices("hello",
-                        spUserService,
-                        tokenRepository()
-                        );
-        return service;
+        return new PersistentTokenBasedRememberMeServices("hello",
+                spUserService,
+                tokenRepository()
+                );
     }
 
     @Override
@@ -119,7 +127,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe(r->r
                         .rememberMeServices(rememberMeServices())
                 )
-                ;
+                .sessionManagement(s-> s
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
+                        .expiredUrl("/session-expired")
+                );
     }
 
     @Override
@@ -128,8 +140,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(
                         PathRequest.toStaticResources().atCommonLocations(),
                         PathRequest.toH2Console()
-                )
-        ;
+                );
     }
-
 }
