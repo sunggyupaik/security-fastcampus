@@ -14,18 +14,24 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.servlet.http.HttpSessionEvent;
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SpUserService spUserService;
+    private final DataSource dataSource;
 
-    public SecurityConfig(SpUserService spUserService) {
+    public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
         this.spUserService = spUserService;
+        this.dataSource = dataSource;
     }
 
     @Bean
@@ -68,6 +74,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         });
     }
 
+    @Bean
+    PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+        repository.setDataSource(dataSource);
+        try {
+            repository.removeUserTokens("1");
+        } catch(Exception ex) {
+            repository.setCreateTableOnStartup(true);
+        }
+
+        return repository;
+    }
+
+    @Bean
+    PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices() {
+        return new PersistentTokenBasedRememberMeServices(
+                "hello", spUserService, tokenRepository());
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -86,7 +111,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling(exception ->
                         exception.accessDeniedPage("/access-denied")
                 )
-                .rememberMe();
+                .rememberMe(r->
+                        r.rememberMeServices(persistentTokenBasedRememberMeServices())
+                );
     }
 
     @Override
