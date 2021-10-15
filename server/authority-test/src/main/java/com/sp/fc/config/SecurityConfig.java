@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import java.util.Collection;
 

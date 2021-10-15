@@ -23,6 +23,13 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
         decisionVoters.add(new PreInvocationAuthorizationAdviceVoter(expressionAdvice));
         decisionVoters.add(new RoleVoter());
         decisionVoters.add(new AuthenticatedVoter());
+        decisionVoters.add(new CustomVoter());
+
         return new AffirmativeBased(decisionVoters);
+        //return new UnanimousBased(decisionVoters);
+        //return new ConsensusBased(decisionVoters);
+//        ConsensusBased committee = new ConsensusBased(decisionVoters);
+//        committee.setAllowIfEqualGrantedDeniedDecisions(false);
+//        return committee;
     }
 }
