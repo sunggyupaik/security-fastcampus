@@ -20,6 +20,7 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -35,7 +36,7 @@ import java.time.LocalDateTime;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SpUserService spUserService;
     private final DataSource dataSource;
-    
+
     public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
         this.spUserService = spUserService;
         this.dataSource = dataSource;
@@ -115,7 +116,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(request->
-                    request.antMatchers("/").permitAll()
+                    request
+                            .antMatchers("/").permitAll()
+                            .antMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().authenticated()
                 )
                 .formLogin(login->
@@ -128,7 +131,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout(logout->
                         logout.logoutSuccessUrl("/"))
                 .exceptionHandling(error->
-                        error.accessDeniedPage("/access-denied")
+                        error
+                                .accessDeniedHandler(new CustomDeniedHandler())
+                                //.accessDeniedPage("/access-denied")
                 )
                 .rememberMe(r->r
                         .rememberMeServices(rememberMeServices())

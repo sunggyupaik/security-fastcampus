@@ -44,6 +44,6 @@ public class SessionController {
 
     @GetMapping("/session-expired")
     public String sessionExpire() {
-        return "/sessionExpired";
+        return "sessionExpired";
     }
 }
