@@ -62,9 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests(
                         authority-> authority
-                            .mvcMatchers("/greeting").hasRole("ADMIN")
+                            .mvcMatchers("/greeting").hasRole("USER")
                             .anyRequest().authenticated()
-                            .accessDecisionManager(filterAccessDecisionManager())
+//                            .accessDecisionManager(filterAccessDecisionManager())
                 );
     }
 }
