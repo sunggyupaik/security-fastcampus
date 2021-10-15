@@ -34,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             public void decide(Authentication authentication, Object object,
                                Collection<ConfigAttribute> configAttributes)
                     throws AccessDeniedException, InsufficientAuthenticationException {
-//                throw new AccessDeniedException("접근 금지");
-                return;
+                throw new AccessDeniedException("접근 금지");
+                //return;
             }
 
             @Override
