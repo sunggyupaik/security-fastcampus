@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.servlet.http.HttpSessionEvent;
@@ -30,7 +32,7 @@ import java.time.LocalDateTime;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SpUserService spUserService;
     private final DataSource dataSource;
-
+    
     public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
         this.spUserService = spUserService;
         this.dataSource = dataSource;
@@ -124,6 +126,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .rememberMeServices(rememberMeServices())
                 )
                 .sessionManagement(s-> s
+                        //.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        //.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::none)
+                        .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(false)
                         .expiredUrl("/session-expired")
