@@ -23,6 +23,11 @@ public class HomeController {
         return "loginForm";
     }
 
+    @GetMapping("/login-required")
+    public String loginRequired() {
+        return "loginRequired";
+    }
+
     @GetMapping("/login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
