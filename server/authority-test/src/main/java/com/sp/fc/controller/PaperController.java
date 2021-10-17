@@ -27,6 +27,7 @@ public class PaperController {
         return paperService.getMyPapers(user.getUsername());
     }
 
+    @PreAuthorize("hasPermission(#paperId, 'papaer', 'read')")
     @GetMapping("/get/{paperId}")
     public Paper getPaper(@AuthenticationPrincipal User user, @PathVariable Long paperId) {
         return paperService.getPaper(paperId);
