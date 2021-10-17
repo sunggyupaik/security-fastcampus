@@ -2,6 +2,7 @@ package com.sp.fc.config;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
 import org.springframework.security.core.Authentication;
@@ -10,9 +11,11 @@ import org.springframework.security.core.Authentication;
 @Setter
 public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot
     implements MethodSecurityExpressionOperations {
-
-    public CustomMethodSecurityExpressionRoot(Authentication authentication) {
+    private MethodInvocation invocation;
+    public CustomMethodSecurityExpressionRoot(Authentication authentication,
+                                              MethodInvocation invocation) {
         super(authentication);
+        this.invocation = invocation;
     }
 
     private Object filterObject;
