@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @Component
 public class CustomPermissionEvaluator implements PermissionEvaluator {
-    private PaperService paperService;
+    private final PaperService paperService;
 
     public CustomPermissionEvaluator(PaperService paperService) {
         this.paperService = paperService;
@@ -30,7 +30,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         Paper paper = paperService.getPaper((long) targetId);
         if(paper == null) throw new AccessDeniedException("시험지가 존재하지 않음");
 
-        if(paper.getState() == Paper.State.PREPARE) return false;
+        if(paper.getState() == Paper.State.PREPARE) throw new AccessDeniedException("준비중에는 접근 금지");
 
         return paper.getStudentIds().stream().anyMatch(userId -> userId.equals(authentication.getName()));
     }
