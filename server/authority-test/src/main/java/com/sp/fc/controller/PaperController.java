@@ -2,6 +2,7 @@ package com.sp.fc.controller;
 
 import com.sp.fc.service.Paper;
 import com.sp.fc.service.PaperService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ public class PaperController {
         this.paperService = paperService;
     }
 
+    @PreAuthorize("isStudent()")
     @GetMapping("/mypapers")
     public List<Paper> myPapers(@AuthenticationPrincipal User user) {
         return paperService.getMyPapers(user.getUsername());
