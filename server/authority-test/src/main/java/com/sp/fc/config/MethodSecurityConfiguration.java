@@ -20,7 +20,7 @@ import java.util.List;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
-    private CustomPermissionEvaluator customPermissionEvaluator;
+    private final CustomPermissionEvaluator customPermissionEvaluator;
 
     public MethodSecurityConfiguration(CustomPermissionEvaluator customPermissionEvaluator) {
         this.customPermissionEvaluator = customPermissionEvaluator;
