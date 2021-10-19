@@ -2,6 +2,7 @@ package com.sp.fc.controller;
 
 import com.sp.fc.service.Paper;
 import com.sp.fc.service.PaperService;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -21,7 +22,8 @@ public class PaperController {
         this.paperService = paperService;
     }
 
-    @PreAuthorize("isStudent()")
+//    @PreAuthorize("isStudent()")
+    @PostFilter("filterObject.state != T(com.sp.fc.service.Paper.State).PREPARE")
     @GetMapping("/mypapers")
     public List<Paper> myPapers(@AuthenticationPrincipal User user) {
         return paperService.getMyPapers(user.getUsername());

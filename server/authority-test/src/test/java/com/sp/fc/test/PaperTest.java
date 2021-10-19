@@ -25,7 +25,7 @@ public class PaperTest extends WebIntegrationTest {
             .title("시험지1")
             .tutorId("tutor1")
             .studentIds(List.of("user1"))
-            .state(Paper.State.PREPARE)
+            .state(Paper.State.READY)
             .build();
 
     private Paper paper2 = Paper.builder()
@@ -47,6 +47,7 @@ public class PaperTest extends WebIntegrationTest {
                 });
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
         System.out.println(response.getBody());
     }
 
