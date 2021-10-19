@@ -29,6 +29,7 @@ public class PaperService implements InitializingBean {
         ).collect(Collectors.toList());
     }
 
+    //@PostAuthorize("returnObject.studentIds.contains(principal.username)")
     public Paper getPaper(Long paperId) {
         return paperDB.get(paperId);
     }

@@ -2,7 +2,7 @@ package com.sp.fc.controller;
 
 import com.sp.fc.service.Paper;
 import com.sp.fc.service.PaperService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,8 @@ public class PaperController {
         return paperService.getMyPapers(user.getUsername());
     }
 
-    @PreAuthorize("hasPermission(#paperId, 'paper', 'read')")
+//    @PreAuthorize("hasPermission(#paperId, 'paper', 'read')")
+    @PostAuthorize("returnObject.studentIds.contains(#user.username)")
     @GetMapping("/get/{paperId}")
     public Paper getPaper(@AuthenticationPrincipal User user, @PathVariable Long paperId){
         return paperService.getPaper(paperId);
