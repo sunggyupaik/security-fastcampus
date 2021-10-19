@@ -23,7 +23,7 @@ public class PaperController {
     }
 
 //    @PreAuthorize("isStudent()")
-    @PostFilter("notPrepareState(filterObject)")
+    @PostFilter("notPrepareState(filterObject) && filterObject.studentIds.contains(#user.username)")
     @GetMapping("/mypapers")
     public List<Paper> myPapers(@AuthenticationPrincipal User user) {
         return paperService.getMyPapers(user.getUsername());

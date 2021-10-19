@@ -36,10 +36,20 @@ public class PaperTest extends WebIntegrationTest {
             .state(Paper.State.PREPARE)
             .build();
 
+    private Paper paper3 = Paper.builder()
+            .paperId(3L)
+            .title("시험지3")
+            .tutorId("tutor1")
+            .studentIds(List.of("user2"))
+            .state(Paper.State.READY)
+            .build();
+
     @DisplayName("user1이 시험지 리스트를 조회한다.")
     @Test
     void test_1() {
         paperService.setPaper(paper1);
+        paperService.setPaper(paper2);
+        paperService.setPaper(paper3);
 
         client = new TestRestTemplate("user1", "1111");
         ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/mypapers"),
