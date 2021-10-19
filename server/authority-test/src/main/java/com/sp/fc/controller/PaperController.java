@@ -27,6 +27,11 @@ public class PaperController {
         return paperService.getMyPapers(user.getUsername());
     }
 
+    @GetMapping("/getPapersByPrimary")
+    public List<Paper> getPaperByPrimary(@AuthenticationPrincipal User user) {
+        return paperService.getAllPapers();
+    }
+
 //    @PreAuthorize("hasPermission(#paperId, 'paper', 'read')")
     @PostAuthorize("returnObject.studentIds.contains(#user.username)")
     @GetMapping("/get/{paperId}")
