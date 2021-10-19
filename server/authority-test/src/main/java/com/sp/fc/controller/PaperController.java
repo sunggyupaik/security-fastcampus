@@ -23,7 +23,7 @@ public class PaperController {
     }
 
 //    @PreAuthorize("isStudent()")
-    @PostFilter("filterObject.state != T(com.sp.fc.service.Paper.State).PREPARE")
+    @PostFilter("notPrepareState(filterObject)")
     @GetMapping("/mypapers")
     public List<Paper> myPapers(@AuthenticationPrincipal User user) {
         return paperService.getMyPapers(user.getUsername());
