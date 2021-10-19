@@ -2,6 +2,7 @@ package com.sp.fc.config;
 
 import com.sp.fc.service.Paper;
 import com.sp.fc.service.PaperService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
@@ -11,11 +12,8 @@ import java.io.Serializable;
 
 @Component
 public class CustomPermissionEvaluator implements PermissionEvaluator {
-    private final PaperService paperService;
-
-    public CustomPermissionEvaluator(PaperService paperService) {
-        this.paperService = paperService;
-    }
+    @Lazy
+    private PaperService paperService;
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {

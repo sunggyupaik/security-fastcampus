@@ -1,11 +1,12 @@
 package com.sp.fc.service;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PaperService implements InitializingBean {
@@ -20,11 +21,12 @@ public class PaperService implements InitializingBean {
         paperDB.put(paper.getPaperId(), paper);
     }
 
+    @PostFilter("notPrepareState(filterObject)")
     public List<Paper> getMyPapers(String username) {
-        return new ArrayList<>(paperDB.values());
-//        return paperDB.values().stream().filter(
-//                paper -> paper.getStudentIds().contains(username)
-//        ).collect(Collectors.toList());
+//        return new ArrayList<>(paperDB.values());
+        return paperDB.values().stream().filter(
+                paper -> paper.getStudentIds().contains(username)
+        ).collect(Collectors.toList());
     }
 
     public Paper getPaper(Long paperId) {
