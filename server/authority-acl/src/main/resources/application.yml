@@ -9,15 +9,17 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:mysql://localhost:3308/acldemo2?createDatabaseIfNotExist=true
-    jdbc-url: jdbc:mysql://localhost:3308/acldemo2?createDatabaseIfNotExist=true
+#    url: jdbc:mysql://localhost:3306/acldemo2?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+#    jdbc-url: jdbc:mysql://localhost:3306/acldemo2?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+    jdbc-url: jdbc:mysql://localhost:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: user
-    password: 1111
+    username: root
+    password: 1234
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     generate-ddl: true
     show-sql: true
