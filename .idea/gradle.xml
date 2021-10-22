@@ -4,6 +4,8 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Gradle/gradle-6.9.1" />
@@ -11,6 +13,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/comp/common-utils" />
+            <option value="$PROJECT_DIR$/comp/paper-user" />
             <option value="$PROJECT_DIR$/comp/user-admin" />
             <option value="$PROJECT_DIR$/server/authority-acl" />
             <option value="$PROJECT_DIR$/server/authority-test" />

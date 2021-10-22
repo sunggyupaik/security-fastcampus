@@ -1,7 +1,7 @@
 package com.sp.fc.test;
 
-import com.sp.fc.service.Paper;
-import com.sp.fc.service.PaperService;
+import com.sp.fc.user.service.Paper;
+import com.sp.fc.user.service.PaperService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

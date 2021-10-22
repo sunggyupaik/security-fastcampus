@@ -1,6 +1,6 @@
 package com.sp.fc.config;
 
-import com.sp.fc.service.Paper;
+import com.sp.fc.user.service.Paper;
 import lombok.Getter;
 import lombok.Setter;
 import org.aopalliance.intercept.MethodInvocation;
@@ -33,7 +33,7 @@ public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot
     }
 
     public boolean notPrepareState(Paper paper) {
-        return paper.getState() != com.sp.fc.service.Paper.State.PREPARE;
+        return paper.getState() != com.sp.fc.user.service.Paper.State.PREPARE;
     }
 
     @Override

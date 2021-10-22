@@ -1,8 +1,8 @@
 package com.sp.fc.controller;
 
 import com.sp.fc.config.CustomSecurityTag;
-import com.sp.fc.service.Paper;
-import com.sp.fc.service.PaperService;
+import com.sp.fc.user.service.Paper;
+import com.sp.fc.user.service.PaperService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,7 +1,7 @@
 package com.sp.fc.config;
 
-import com.sp.fc.service.Paper;
-import com.sp.fc.service.PaperService;
+import com.sp.fc.user.service.Paper;
+import com.sp.fc.user.service.PaperService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.PermissionEvaluator;

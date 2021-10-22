@@ -1,4 +1,4 @@
-package com.sp.fc.service;
+package com.sp.fc.user.service;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

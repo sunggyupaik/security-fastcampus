@@ -1,6 +1,6 @@
 package com.sp.fc.controller;
 
-import com.sp.fc.service.SecurityMessageService;
+import com.sp.fc.user.service.SecurityMessageService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
