@@ -5,7 +5,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,13 +30,14 @@ public class PaperService implements InitializingBean {
         ).collect(Collectors.toList());
     }
 
-    public List<Paper> getAllPapers() {
-        return new ArrayList<>(paperDB.values());
-    }
-
     //@PostAuthorize("returnObject.studentIds.contains(principal.username)")
     public Paper getPaper(Long paperId) {
         return paperDB.get(paperId);
+    }
+
+    @Secured({"ROLE_PRIMARY", "ROLE_RUN_AS_PRIMARY"})
+    public List<Paper> getAllPapers() {
+        return paperDB.values().stream().collect(Collectors.toList());
     }
 }
 
