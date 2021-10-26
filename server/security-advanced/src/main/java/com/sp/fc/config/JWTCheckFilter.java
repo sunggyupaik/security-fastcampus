@@ -29,11 +29,11 @@ public class JWTCheckFilter extends BasicAuthenticationFilter {
 									HttpServletResponse response,
 									FilterChain chain) throws IOException, ServletException {
 		String bearer = request.getHeader(HttpHeaders.AUTHORIZATION);
-		if(bearer == null || !bearer.startsWith("Bearer: ")){
+		if(bearer == null || !bearer.startsWith("Bearer ")){
 			chain.doFilter(request, response);
 			return;
 		}
-		String token = bearer.substring("Bearer: ".length());
+		String token = bearer.substring("Bearer ".length());
 		VerifyResult result = JWTUtil.verify(token);
 		if(result.isSuccess()){
 			SpUser user = (SpUser) spUserService.loadUserByUsername(result.getUsername());

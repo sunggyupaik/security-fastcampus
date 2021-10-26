@@ -65,7 +65,7 @@ public class JWTRequestTest extends WebIntegrationTest {
 
 		RestTemplate client = new RestTemplate();
 		HttpHeaders header = new HttpHeaders();
-		header.add(HttpHeaders.AUTHORIZATION, "Bearer: " + token);
+		header.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 		HttpEntity body = new HttpEntity<>(null, header);
 		ResponseEntity<String> resp2 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);
 
@@ -79,7 +79,7 @@ public class JWTRequestTest extends WebIntegrationTest {
 
 		Thread.sleep(3000);
 		HttpHeaders header = new HttpHeaders();
-		header.add(HttpHeaders.AUTHORIZATION, "Bearer: "+token.getAuthToken());
+		header.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
 		RestTemplate client = new RestTemplate();
 		assertThrows(Exception.class, ()->{
 			HttpEntity body = new HttpEntity<>(null, header);
@@ -88,7 +88,7 @@ public class JWTRequestTest extends WebIntegrationTest {
 
 		token = refreshToken(token.getRefreshToken());
 		HttpHeaders header2 = new HttpHeaders();
-		header2.add(HttpHeaders.AUTHORIZATION, "Bearer: "+token.getAuthToken());
+		header2.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
 		HttpEntity body = new HttpEntity<>(null, header2);
 		ResponseEntity<String> resp3 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);
 
