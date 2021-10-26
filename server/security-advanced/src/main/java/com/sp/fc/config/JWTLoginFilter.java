@@ -1,7 +1,9 @@
 package com.sp.fc.config;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.fc.user.domain.SpUser;
+import com.sp.fc.user.service.SpUserService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,9 +21,12 @@ import java.io.IOException;
 
 public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final SpUserService spUserService;
 
-	public JWTLoginFilter(AuthenticationManager authenticationManager) {
+	public JWTLoginFilter(AuthenticationManager authenticationManager,
+						  SpUserService spUserService) {
 		super(authenticationManager);
+		this.spUserService = spUserService;
 		setFilterProcessesUrl("/login");
 	}
 
@@ -31,11 +36,22 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 			HttpServletRequest request,
 			HttpServletResponse response) throws AuthenticationException {
 		UserLoginForm userLogin = objectMapper.readValue(request.getInputStream(), UserLoginForm.class);
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-				userLogin.getUsername(), userLogin.getPassword(), null
-		);
+		if(userLogin.getRefreshToken() == null) {
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+					userLogin.getUsername(), userLogin.getPassword(), null
+			);
+			return getAuthenticationManager().authenticate(token);
+		}
 
-		return getAuthenticationManager().authenticate(token);
+		VerifyResult verify = JWTUtil.verify(userLogin.getRefreshToken());
+		if(verify.isSuccess()){
+			SpUser user = (SpUser) spUserService.loadUserByUsername(verify.getUsername());
+			return new UsernamePasswordAuthenticationToken(
+					user, user.getAuthorities()
+			);
+		} else {
+			throw new TokenExpiredException("refresh token expired");
+		}
 	}
 
 	@Override
@@ -46,7 +62,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 			Authentication authResult) throws IOException, ServletException {
 		SpUser user = (SpUser) authResult.getPrincipal();
 
-		response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer: " + JWTUtil.makeAuthToken(user));
+		response.setHeader("auth_token", JWTUtil.makeAuthToken(user));
+		response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user));
 		response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
 	}
