@@ -38,6 +38,7 @@
         <module name="security-fastcampus.server-login-userdetails.test" />
         <module name="security-fastcampus.comp-common-utils.test" />
         <module name="security-fastcampus.server-basic-test.main" />
+        <module name="security-fastcampus.server-sns-logins.test" />
         <module name="security-fastcampus.web-student-teacher.test" />
         <module name="security-fastcampus.web-site-manager.main" />
         <module name="security-fastcampus.web-site-teacher.main" />
@@ -46,6 +47,7 @@
         <module name="security-fastcampus.server-login-custom-filter.main" />
         <module name="security-fastcampus.server-login-userdetails.main" />
         <module name="security-fastcampus.web-site-manager.test" />
+        <module name="security-fastcampus.server-sns-logins.main" />
         <module name="security-fastcampus.test-web-util.main" />
         <module name="security-fastcampus.server-authority-test.test" />
         <module name="security-fastcampus.comp-common-utils.main" />
